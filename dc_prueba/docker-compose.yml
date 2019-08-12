@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+	ruby:
+		boulid: ./ruby
+		image: ruby:2.5
+		container_name:ruby
+		volumes: 
+			- "/app"
+		tty: true
+		
+	mysql:
+		image: mysql:5.7
+		container_name: mysql
+		ports:
+			- "3306:3306"
+		enviroment:
+			- MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+			
+	phpmyadmin:
+		image: phpmyadmin/phpmyadmin
+		container_name: phpmyadmin
+		ports:
+			- "8080:80"
+		depends_on:
+			- mysql
+		enviroment:
+			- MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+			- PMA_HOST=mysql
